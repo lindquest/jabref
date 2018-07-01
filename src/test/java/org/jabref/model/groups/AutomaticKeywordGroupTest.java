@@ -9,6 +9,7 @@ import org.jabref.model.entry.BibEntry;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AutomaticKeywordGroupTest {
 
@@ -29,5 +30,13 @@ public class AutomaticKeywordGroupTest {
 
         int expected = Objects.hash(keywordsGroup.getKeywordDelimiter(), keywordsGroup.getField());
         assertEquals(expected, keywordsGroup.hashCode());
+    }
+
+    @Test
+    public void deepCopyShouldBeEqual() throws Exception {
+        AutomaticKeywordGroup group1 = new AutomaticKeywordGroup("Keywords", GroupHierarchyType.INDEPENDENT, "keywords", ',', '>');
+        AbstractGroup group2 = group1.deepCopy();
+
+        assertTrue(group1.equals(group2));
     }
 }
