@@ -1,6 +1,7 @@
 package org.jabref.model.groups;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import org.jabref.model.entry.BibEntry;
@@ -20,5 +21,13 @@ public class AutomaticKeywordGroupTest {
         expected.add(GroupTreeNode.fromGroup(new WordKeywordGroup("A", GroupHierarchyType.INCLUDING, "keywords", "A", true, ',', true)));
         expected.add(GroupTreeNode.fromGroup(new WordKeywordGroup("B", GroupHierarchyType.INCLUDING, "keywords", "B", true, ',', true)));
         assertEquals(expected, keywordsGroup.createSubgroups(entry));
+    }
+
+    @Test
+    public void hashCodeMatchesObjectHash() throws Exception {
+        AutomaticKeywordGroup keywordsGroup = new AutomaticKeywordGroup("Keywords", GroupHierarchyType.INDEPENDENT, "keywords", ',', '>');
+
+        int expected = Objects.hash(keywordsGroup.getKeywordDelimiter(), keywordsGroup.getField());
+        assertEquals(expected, keywordsGroup.hashCode());
     }
 }
