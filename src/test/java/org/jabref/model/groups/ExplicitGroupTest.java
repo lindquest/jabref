@@ -1,5 +1,6 @@
 package org.jabref.model.groups;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.jabref.model.entry.BibEntry;
@@ -92,5 +93,19 @@ public class ExplicitGroupTest {
         ExplicitGroup explicitGroup = new ExplicitGroup("[aa] Subgroup1", GroupHierarchyType.INCLUDING, ',');
 
         assertTrue(explicitGroup.contains(entry));
+    }
+
+    @Test
+    public void deepCopyShouldBeEqual() throws Exception {
+        AbstractGroup copy = group.deepCopy();
+
+        assertTrue(copy.equals(group));
+    }
+
+    @Test
+    public void hashCodeMatchesObjectHash() throws Exception {
+        int expected = Objects.hash(group.getName(), group.getHierarchicalContext(), group.getLegacyEntryKeys(),
+                group.getIconName(), group.getColor(), group.getDescription(), group.isExpanded());
+        assertEquals(expected, group.hashCode());
     }
 }

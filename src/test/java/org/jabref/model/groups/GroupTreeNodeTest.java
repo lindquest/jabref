@@ -283,4 +283,61 @@ public class GroupTreeNodeTest {
 
         assertEquals("ExplicitParent > ExplicitNode", node.getPath());
     }
+
+    @Test
+    public void getContainingGroupsFindsGroupsContainingAnyOfTheEntries() throws Exception {
+        GroupTreeNode parent = getNodeInSimpleTree();
+        GroupTreeNode node1 = parent.addSubgroup(
+                new WordKeywordGroup("node1", GroupHierarchyType.INDEPENDENT, "author", "author2", true, ',', false));
+        GroupTreeNode node2 = parent.addSubgroup(
+                new ExplicitGroup("node2", GroupHierarchyType.INDEPENDENT, ','));
+        node2.addEntriesToGroup(entries);
+        @SuppressWarnings("unused")
+        GroupTreeNode node3 = parent.addSubgroup(
+                new WordKeywordGroup("node3", GroupHierarchyType.INDEPENDENT, "author", "author3", true, ',', false));
+
+        List<GroupTreeNode> expected = new ArrayList<>();
+        expected.add(node1);
+        expected.add(node2);
+
+        assertEquals(expected, parent.getContainingGroups(entries, false));
+    }
+
+    @Test
+    public void getContainingGroupsFindsGroupsContainingAllOfTheEntries() throws Exception {
+        GroupTreeNode parent = getNodeInSimpleTree();
+        @SuppressWarnings("unused")
+        GroupTreeNode node1 = parent.addSubgroup(
+                new WordKeywordGroup("node1", GroupHierarchyType.INDEPENDENT, "author", "author2", true, ',', false));
+        GroupTreeNode node2 = parent.addSubgroup(
+                new ExplicitGroup("node2", GroupHierarchyType.INDEPENDENT, ','));
+        node2.addEntriesToGroup(entries);
+        @SuppressWarnings("unused")
+        GroupTreeNode node3 = parent.addSubgroup(
+                new WordKeywordGroup("node3", GroupHierarchyType.INDEPENDENT, "author", "author3", true, ',', false));
+
+        List<GroupTreeNode> expected = new ArrayList<>();
+        expected.add(node2);
+
+        assertEquals(expected, parent.getContainingGroups(entries, true));
+    }
+
+    @Test
+    public void getMatchingGroupsFindsGroupsMatchingAnyOfTheEntries() throws Exception {
+        GroupTreeNode parent = getNodeInSimpleTree();
+        GroupTreeNode node1 = parent.addSubgroup(
+                new WordKeywordGroup("node1", GroupHierarchyType.INDEPENDENT, "author", "author2", true, ',', false));
+        GroupTreeNode node2 = parent.addSubgroup(
+                new ExplicitGroup("node2", GroupHierarchyType.INDEPENDENT, ','));
+        node2.addEntriesToGroup(entries);
+        @SuppressWarnings("unused")
+        GroupTreeNode node3 = parent.addSubgroup(
+                new WordKeywordGroup("node3", GroupHierarchyType.INDEPENDENT, "author", "author3", true, ',', false));
+
+        List<GroupTreeNode> expected = new ArrayList<>();
+        expected.add(node1);
+        expected.add(node2);
+
+        assertEquals(expected, parent.getMatchingGroups(entries));
+    }
 }
