@@ -53,11 +53,11 @@ public class SearchGroup extends AbstractGroup {
         try {
             return new SearchGroup(getName(), getHierarchicalContext(), getSearchExpression(), isCaseSensitive(),
                     isRegularExpression());
-        } catch (Throwable t) {
+        } catch (Exception e) {
             // this should never happen, because the constructor obviously
             // succeeded in creating _this_ instance!
             LOGGER.error("Internal error in SearchGroup.deepCopy(). "
-                    + "Please report this on https://github.com/JabRef/jabref/issues", t);
+                    + "Please report this on https://github.com/JabRef/jabref/issues", e);
             return null;
         }
     }

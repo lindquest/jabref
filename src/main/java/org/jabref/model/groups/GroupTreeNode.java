@@ -268,7 +268,7 @@ public class GroupTreeNode extends TreeNode<GroupTreeNode> {
         GroupTreeNode present = this;
         for (String groupName : pathToSource.split(PATH_DELEMITER)) {
             Optional<GroupTreeNode> childWithName = present.getChildren().stream()
-                    .filter(group -> Objects.equals(group.getName(), groupName))
+                    .filter(g -> Objects.equals(g.getName(), groupName))
                     .findFirst();
             if (childWithName.isPresent()) {
                 present = childWithName.get();
