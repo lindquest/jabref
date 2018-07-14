@@ -77,7 +77,7 @@ public class FieldName {
     public static final String JOURNAL = "journal";
     public static final String JOURNALSUBTITLE = "journalsubtitle";
     public static final String JOURNALTITLE = "journaltitle";
-    public static final String KEY = "key";
+    public static final String KEY = "bibtexkey";
     public static final String KEYWORDS = "keywords";
     public static final String LANGUAGE = "language";
     public static final String LOCATION = "location";
