@@ -24,7 +24,7 @@ import org.apache.commons.csv.*;
  */
 public class CSVImporter extends Importer {
 
-    private static final Pattern START_PATTERN = Pattern.compile("BibliographyType,ISBN,.*");
+    private static final Pattern START_PATTERN = Pattern.compile("[.*,]?BibliographyType[,.*]?");
 
     private static final List<String> FIELDS_TO_REMOVE = Arrays.asList("BibliographyType", "Identifier",
             "Organizations", "Custom1", "Custom2", "Custom3", "Custom4", "Custom5");
@@ -96,7 +96,7 @@ public class CSVImporter extends Importer {
             fields.put("file", entry.get("Custom4"));
             fields.put("key", entry.get("Custom5"));
 
-            bibEntry.setType(ENTRY_TYPES.get(Integer.parseInt(entry.get("BibliographyType"))));
+            bibEntry.setType(ENTRY_TYPES.getOrDefault(Integer.parseInt(entry.get("BibliographyType")), BibtexEntryTypes.MISC));
             bibEntry.setField(fields);
             bibItems.add(bibEntry);
         }
