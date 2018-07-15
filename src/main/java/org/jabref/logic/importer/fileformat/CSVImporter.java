@@ -86,7 +86,6 @@ public class CSVImporter extends Importer {
             BibEntry bibEntry = new BibEntry();
 
             Map<String, String> fields = entry.toMap();
-            System.out.println(fields.toString());
             fields.keySet().removeAll(FIELDS_TO_REMOVE);
             fields.put("bibtexkey", entry.get("Identifier"));
             fields.put("organization", entry.get("Organizations"));
