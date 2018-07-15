@@ -168,7 +168,7 @@ public class ImportInspectionDialog extends JabRefDialog implements ImportInspec
     private final List<BibEntry> entriesToDelete = new ArrayList<>();
     private final String undoName;
     private final List<CallBack> callBacks = new ArrayList<>();
-    private final boolean newDatabase;
+    private boolean newDatabase;
     private final JPopupMenu popup = new JPopupMenu();
     private final JButton deselectAllDuplicates = new JButton(Localization.lang("Deselect all duplicates"));
     private final JButton stop = new JButton(Localization.lang("Stop"));
@@ -273,6 +273,8 @@ public class ImportInspectionDialog extends JabRefDialog implements ImportInspec
         JButton deselectAll = new JButton(Localization.lang("Deselect all"));
         builder.addButton(deselectAll);
         builder.addButton(deselectAllDuplicates);
+        JCheckBox addToNew = new JCheckBox(Localization.lang("Add to new library"), newDatabase);
+        builder.addFixed(addToNew);
         builder.addRelatedGap();
         JButton delete = new JButton(Localization.lang("Delete"));
         builder.addButton(delete);
@@ -313,6 +315,9 @@ public class ImportInspectionDialog extends JabRefDialog implements ImportInspec
         deselectAllDuplicates.setEnabled(false);
         delete.addActionListener(deleteListener);
         getContentPane().add(bb.getPanel(), BorderLayout.SOUTH);
+        addToNew.addActionListener(e -> {
+            this.newDatabase = !this.newDatabase;
+        });
 
         // Remember and default to last size:
         setSize(new Dimension(Globals.prefs.getInt(JabRefPreferences.IMPORT_INSPECTION_DIALOG_WIDTH),
