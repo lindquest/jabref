@@ -64,9 +64,13 @@ public class IntegrityCheckTest {
         assertCorrect(createContext("year", "1986,"));
         assertCorrect(createContext("year", "1986}%"));
         assertCorrect(createContext("year", "1986(){},.;!?<>%&$"));
+        assertCorrect(createContext("year", "86"));
+        assertCorrect(createContext("year", "204"));
+        assertCorrect(createContext("year", "292278994"));
+        assertWrong(createContext("year", "0"));
+        assertWrong(createContext("year", "-1"));
+        assertWrong(createContext("year", "292278995"));
         assertWrong(createContext("year", "abc"));
-        assertWrong(createContext("year", "86"));
-        assertWrong(createContext("year", "204"));
         assertWrong(createContext("year", "1986a"));
         assertWrong(createContext("year", "(1986a)"));
         assertWrong(createContext("year", "1986a,"));
