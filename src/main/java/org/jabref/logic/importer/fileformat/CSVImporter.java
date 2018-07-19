@@ -29,6 +29,9 @@ public class CSVImporter extends Importer {
     private static final List<String> FIELDS_TO_REMOVE = Arrays.asList("BibliographyType", "Identifier",
             "Organizations", "Custom1", "Custom2", "Custom3", "Custom4", "Custom5");
 
+    private static final List<String> RENAMED_FIELDS = Arrays.asList("bibtexkey",
+            "organization", "abstract", "comment", "keywords", "file", "key");
+
     private static final Map<Integer, EntryType> ENTRY_TYPES = createTypesMap();
 
     // Values from GetOpenOfficeType.format()
@@ -87,13 +90,11 @@ public class CSVImporter extends Importer {
 
             Map<String, String> fields = entry.toMap();
             fields.keySet().removeAll(FIELDS_TO_REMOVE);
-            fields.put("bibtexkey", entry.get("Identifier"));
-            fields.put("organization", entry.get("Organizations"));
-            fields.put("abstract", entry.get("Custom1"));
-            fields.put("comment", entry.get("Custom2"));
-            fields.put("keywords", entry.get("Custom3"));
-            fields.put("file", entry.get("Custom4"));
-            fields.put("key", entry.get("Custom5"));
+            for (int i = 0; i < RENAMED_FIELDS.size(); i++) {
+                String bibtexField = RENAMED_FIELDS.get(i);
+                String csvField = FIELDS_TO_REMOVE.get(i + 1);
+                fields.put(bibtexField, entry.isMapped(csvField) ? entry.get(csvField) : "");
+            }
 
             bibEntry.setType(ENTRY_TYPES.getOrDefault(Integer.parseInt(entry.get("BibliographyType")), BibtexEntryTypes.MISC));
             bibEntry.setField(fields);
