@@ -14,7 +14,6 @@ public class YearChecker implements ValueChecker {
             .asPredicate();
     private static final Predicate<String> ENDS_WITH_DIGITS = Pattern.compile("[0-9]+$").asPredicate();
     private static final String PUNCTUATION_MARKS = "[(){},.;!?<>%&$]";
-    private static final String INVALID_YEAR_MESSAGE = "should contain a valid year";
 
     /**
      * Checks if the number String contains a valid year and ends with it.
@@ -35,14 +34,14 @@ public class YearChecker implements ValueChecker {
 
             if ((digits < calendar.getMinimum(GregorianCalendar.YEAR))
                 || (digits > calendar.getMaximum(GregorianCalendar.YEAR))) {
-                return Optional.of(Localization.lang(INVALID_YEAR_MESSAGE));
+                return invalidYearMessage();
             }
         } catch (NumberFormatException e) {
-            return Optional.of(Localization.lang(INVALID_YEAR_MESSAGE));
+            return invalidYearMessage();
         }
 
         if (!CONTAINS_DIGITS.test(value.trim())) {
-            return Optional.of(Localization.lang(INVALID_YEAR_MESSAGE));
+            return invalidYearMessage();
         }
 
         if (!ENDS_WITH_DIGITS.test(value.replaceAll(PUNCTUATION_MARKS, ""))) {
@@ -50,5 +49,9 @@ public class YearChecker implements ValueChecker {
         }
 
         return Optional.empty();
+    }
+
+    private Optional<String> invalidYearMessage() {
+        return Optional.of(Localization.lang("should contain a valid year"));
     }
 }
