@@ -315,9 +315,7 @@ public class ImportInspectionDialog extends JabRefDialog implements ImportInspec
         deselectAllDuplicates.setEnabled(false);
         delete.addActionListener(deleteListener);
         getContentPane().add(bb.getPanel(), BorderLayout.SOUTH);
-        addToNew.addActionListener(e -> {
-            this.newDatabase = !this.newDatabase;
-        });
+        addToNew.addActionListener(e -> this.newDatabase = !this.newDatabase);
 
         // Remember and default to last size:
         setSize(new Dimension(Globals.prefs.getInt(JabRefPreferences.IMPORT_INSPECTION_DIALOG_WIDTH),

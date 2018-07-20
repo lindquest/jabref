@@ -14,10 +14,10 @@ public class YearChecker implements ValueChecker {
             .asPredicate();
     private static final Predicate<String> ENDS_WITH_DIGITS = Pattern.compile("[0-9]+$").asPredicate();
     private static final String PUNCTUATION_MARKS = "[(){},.;!?<>%&$]";
-    private static final GregorianCalendar calendar = new GregorianCalendar();
+    private static final String INVALID_YEAR_MESSAGE = "should contain a valid year";
 
     /**
-     * Checks, if the number String contains a valid year and ends with it.
+     * Checks if the number String contains a valid year and ends with it.
      * Official bibtex spec:
      * Generally it should consist of four numerals, such as 1984, although the standard styles
      * can handle any year whose last four nonpunctuation characters are numerals, such as ‘(about 1984)’.
@@ -31,16 +31,18 @@ public class YearChecker implements ValueChecker {
 
         try {
             int digits = Integer.parseInt(value.replaceAll("[^-0-9]+", ""));
+            GregorianCalendar calendar = new GregorianCalendar();
+
             if ((digits < calendar.getMinimum(GregorianCalendar.YEAR))
                 || (digits > calendar.getMaximum(GregorianCalendar.YEAR))) {
-                return Optional.of(Localization.lang("should contain a valid year"));
+                return Optional.of(Localization.lang(INVALID_YEAR_MESSAGE));
             }
         } catch (NumberFormatException e) {
-            return Optional.of(Localization.lang("should contain a valid year"));
+            return Optional.of(Localization.lang(INVALID_YEAR_MESSAGE));
         }
 
         if (!CONTAINS_DIGITS.test(value.trim())) {
-            return Optional.of(Localization.lang("should contain a valid year"));
+            return Optional.of(Localization.lang(INVALID_YEAR_MESSAGE));
         }
 
         if (!ENDS_WITH_DIGITS.test(value.replaceAll(PUNCTUATION_MARKS, ""))) {
